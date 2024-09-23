@@ -19,23 +19,6 @@ dotenv.config({
     path: path.resolve(__dirname, "../", ".env"),
 });
 
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
-
-app.use("/", indexRouter);
-app.use("/upload", uploadRouter);
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
-if (process.env.NODE_ENV === "production") {
-    app.set("trust proxy", 1);
-}
-app.use((req, res, next) => {
-    next(createError(404));
-});
-
 app.use(
     helmet({
         contentSecurityPolicy: false,
@@ -54,6 +37,24 @@ app.use(
         exposedHeaders: ["Location", "Content-Disposition"],
     }),
 );
+
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+
+app.use("/", indexRouter);
+app.use("/upload", uploadRouter);
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, "public")));
+if (process.env.NODE_ENV === "production") {
+    app.set("trust proxy", 1);
+}
+app.use((req, res, next) => {
+    next(createError(404));
+});
+
 app.use(
     (
         err: { message: string; status: number },
