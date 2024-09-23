@@ -1,17 +1,21 @@
 import createError from "http-errors";
 import express from "express";
-import path from "path";
 import cookieParser from "cookie-parser";
 import { fileURLToPath } from "node:url";
-import "dotenv/config";
+import dotenv from "dotenv";
 import indexRouter from "./routes/home.js";
 import uploadRouter from "./routes/upload.js";
 import * as process from "node:process";
+import * as path from "node:path";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const port = 8009;
 
 const app = express();
+
+dotenv.config({
+    path: path.resolve(__dirname, "../", ".env"),
+});
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
