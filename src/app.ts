@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import { fileURLToPath } from "node:url";
 import "dotenv/config";
 import indexRouter from "./routes/home.js";
-import usersRouter from "./routes/upload.js";
+import uploadRouter from "./routes/upload.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const port = 8009;
@@ -16,7 +16,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/upload", uploadRouter);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -32,7 +32,7 @@ app.use(
         err: { message: string; status: number },
         req: { app: { get: (arg0: string) => string } },
         res: {
-            locals: { message: string; error: string | {} };
+            locals: { message: string; error: string | object };
             status: (arg0: unknown) => void;
             render: (arg0: string) => void;
         },

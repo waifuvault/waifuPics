@@ -26,11 +26,6 @@
     "resolveJsonModule": true,
     "noImplicitOverride": true,
     "skipLibCheck": true,
-    "lib": [
-      "es7",
-      "dom",
-      "ESNext.AsyncIterable"
-    ],
     "typeRoots": [
       "./node_modules/@types"
     ]
