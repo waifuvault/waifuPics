@@ -26,12 +26,18 @@ router.put("/", upload.single("file"), async (req, res) => {
         });
     }
 
-    const isImageFile = await isImage(fileBuffer, file.originalname);
-
-    if (!isImageFile) {
+    try {
+        const isImageFile = await isImage(fileBuffer, file.originalname);
+        if (!isImageFile) {
+            return sendErr(res, {
+                status: 400,
+                message: "Only images allowed",
+            });
+        }
+    } catch (e) {
         return sendErr(res, {
-            status: 400,
-            message: "Only images allowed",
+            status: 500,
+            message: e.message,
         });
     }
 
