@@ -113,8 +113,8 @@ async function isImage(buff: Buffer, resourceName: string): Promise<boolean> {
 }
 
 function sendErr(res: ExpressResponse, err: CommonError): ExpressResponse {
-    console.log(err.status);
-    return res.status(err.status).send(err);
+    console.error(err);
+    return res.status(err.status ?? 500).send(err ?? "unknown error");
 }
 
 function checkMime(mimeType: string): boolean {
