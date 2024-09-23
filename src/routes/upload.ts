@@ -1,5 +1,5 @@
 import express, { Response as ExpressResponse } from "express";
-import { upload } from "../public/multerConfig.js";
+import { upload } from "../multerConfig.js";
 import { fileTypeFromBuffer } from "file-type";
 import mime from "mime";
 import { CommonError, CommonResult, WaifuError, WaifuResponse } from "../typings.js";

@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import "dotenv/config";
 import indexRouter from "./routes/home.js";
 import uploadRouter from "./routes/upload.js";
+import * as process from "node:process";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const port = 8009;
@@ -22,7 +23,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-
+if (process.env.NODE_ENV === "production") {
+    app.set("trust proxy", 1);
+}
 app.use((req, res, next) => {
     next(createError(404));
 });
