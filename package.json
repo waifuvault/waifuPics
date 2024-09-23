@@ -13,7 +13,8 @@
     "update_deps": "npx npm-check-updates",
     "start:dev": "node --loader ts-node/esm src/app.ts",
     "start:prod": "node dist/app.js",
-    "prepare": "husky"
+    "prepare": "husky",
+    "watch": "nodemon --watch \"src/**\" --ext \"ts,json,ejs\" --ignore \"src/**/*.spec.ts\" --exec \"node --loader ts-node/esm src/app.ts\""
   },
   "dependencies": {
     "cookie-parser": "~1.4.6",
@@ -33,14 +34,15 @@
     "@types/express": "^4.17.21",
     "@types/multer": "^1.4.12",
     "eslint": "^9.11.0",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "nodemon": "^3.1.7",
     "prettier": "3.3.3",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
+    "tsc-files": "^1.1.4",
     "typescript": "5.6.2",
-    "typescript-eslint": "^8.6.0",
-    "husky": "^9.1.6",
-    "lint-staged": "^15.2.10",
-    "tsc-files": "^1.1.4"
+    "typescript-eslint": "^8.6.0"
   },
   "lint-staged": {
     "src/**/*.ts": [
