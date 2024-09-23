@@ -7,6 +7,8 @@ import indexRouter from "./routes/home.js";
 import uploadRouter from "./routes/upload.js";
 import * as process from "node:process";
 import * as path from "node:path";
+import helmet from "helmet";
+import cors from "cors";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const port = 8009;
@@ -34,6 +36,24 @@ app.use((req, res, next) => {
     next(createError(404));
 });
 
+app.use(
+    helmet({
+        contentSecurityPolicy: false,
+        crossOriginResourcePolicy: {
+            policy: "cross-origin",
+        },
+        crossOriginEmbedderPolicy: {
+            policy: "credentialless",
+        },
+    }),
+);
+
+app.use(
+    cors({
+        origin: process.env.BASE_URL,
+        exposedHeaders: ["Location", "Content-Disposition"],
+    }),
+);
 app.use(
     (
         err: { message: string; status: number },
