@@ -7,9 +7,6 @@ import * as process from "node:process";
 
 const router = express.Router();
 
-const waifuVaultBaseUrl = process.env.WAIFU_VAULT_BASE_URL;
-const bucket = process.env.BUCKET;
-
 router.put("/", upload.single("file"), async (req, res) => {
     const file = req?.file;
     if (!file) {
@@ -60,7 +57,7 @@ async function uploadImage(buffer: Buffer, fileName: string): Promise<string> {
     const body = new FormData();
     const blob = new Blob([buffer]);
     body.append("file", blob, fileName);
-    const response = await fetch(`${waifuVaultBaseUrl}/rest/${bucket}`, {
+    const response = await fetch(`${process.env.WAIFU_VAULT_BASE_URL}/rest/${process.env.BUCKET}`, {
         method: "PUT",
         body,
     });
