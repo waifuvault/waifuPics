@@ -2,7 +2,7 @@ import createError from "http-errors";
 import express from "express";
 import cookieParser from "cookie-parser";
 import { fileURLToPath } from "node:url";
-import dotenv from "dotenv";
+import "dotenv/config";
 import indexRouter from "./routes/home.js";
 import uploadRouter from "./routes/upload.js";
 import * as process from "node:process";
@@ -14,10 +14,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const port = 8009;
 
 const app = express();
-
-dotenv.config({
-    path: path.resolve(__dirname, "../", ".env"),
-});
 
 app.use(
     helmet({
@@ -66,7 +62,7 @@ app.use(
         },
     ) => {
         res.locals.message = err.message;
-        res.locals.error = process.env.NODE_ENV === "development" ? err : {};
+        res.locals.error = req.app.get("env") === "development" ? err : {};
         res.status(err.status || 500);
         res.render("error");
     },
