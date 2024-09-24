@@ -1,8 +1,8 @@
 import createError from "http-errors";
-import express from "express";
+import express, { NextFunction } from "express";
 import cookieParser from "cookie-parser";
 import { fileURLToPath } from "node:url";
-import "dotenv/config";
+import dotenv from "dotenv";
 import indexRouter from "./routes/home.js";
 import uploadRouter from "./routes/upload.js";
 import * as process from "node:process";
@@ -12,6 +12,10 @@ import cors from "cors";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const port = 8009;
+
+dotenv.config({
+    path: path.resolve(__dirname, "../", ".env"),
+});
 
 const app = express();
 
@@ -47,6 +51,7 @@ app.use(express.static(path.join(__dirname, "public")));
 if (process.env.NODE_ENV === "production") {
     app.set("trust proxy", 1);
 }
+
 app.use((req, res, next) => {
     next(createError(404));
 });
@@ -60,11 +65,15 @@ app.use(
             status: (arg0: unknown) => void;
             render: (arg0: string) => void;
         },
+        next: NextFunction,
     ) => {
-        res.locals.message = err.message;
-        res.locals.error = req.app.get("env") === "development" ? err : {};
-        res.status(err.status || 500);
-        res.render("error");
+        if (err) {
+            res.locals.message = err.message;
+            res.locals.error = req.app.get("env") === "development" ? err : {};
+            res.status(err.status || 500);
+            return res.render("error");
+        }
+        next();
     },
 );
 
