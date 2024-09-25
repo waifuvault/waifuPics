@@ -48,6 +48,10 @@
         .dropzone .dz-preview.dz-image-preview{
             background: #fff0;
         }
+
+        .dropzone.dz-drag-hover i{
+            opacity: .5;
+        }
     </style>
 </head>
 <body>
@@ -75,13 +79,15 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 <script>
+    Dropzone.autoDiscover = false;
     const dz = new Dropzone("#uploadDropzone", {
         url: "/upload",
         method: "PUT",
         uploadMultiple: false,
         addRemoveLinks: true,
         maxThumbnailFilesize: 50,
-        maxFiles: 10
+        maxFiles: 10,
+        maxFilesize: 100,
     });
 
     dz.on("complete", file => {
